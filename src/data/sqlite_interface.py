@@ -26,7 +26,7 @@ A table to keep track of directed connections:
     CREATE TABLE IF NOT EXISTS edge_list(
         edge_id         INT    PRIMARY KEY
         origin_page     TEXT   FOREIGN KEY nodes.page_title
-        referenced_page TEXT   FOREIGN KEY nodes.page_title
+        referenced_page TEXT
     )
 
 If we want to create a csv for analysis in Gephi, then we should be able to export the edge_list table.
@@ -41,15 +41,15 @@ class GraphInterface:
     def __init__(self, db_path):
         self.db_path = db_path
         self.conn = sql.connect(self.db_path)
+        self.cursor = self.conn.cursor()
 
     def close_conn(self):
         self.conn.close()
 
     def create_tables(self):
-        cursor = self.conn.cursor()
 
         # Queue table
-        cursor.execute("""
+        self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS queue (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             url TEXT UNIQUE,
@@ -58,7 +58,7 @@ class GraphInterface:
         """)
 
         # Visited pages
-        cursor.execute("""
+        self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS visited (
             url TEXT PRIMARY KEY,
             scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -66,7 +66,7 @@ class GraphInterface:
         """)
 
         # Node data
-        cursor.execute("""
+        self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS nodes (
             page_title TEXT PRIMARY KEY,
             page_cats  TEXT
@@ -74,13 +74,12 @@ class GraphInterface:
         """)
 
         # Directed connections
-        cursor.execute("""
+        self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS edge_list (
             edge_id INTEGER PRIMARY KEY AUTOINCREMENT,
             origin_page TEXT,
             referenced_page TEXT,
-            FOREIGN KEY (origin_page) REFERENCES nodes(page_title),
-            FOREIGN KEY (referenced_page) REFERENCES nodes(page_title)
+            FOREIGN KEY (origin_page) REFERENCES nodes(page_title)
         )
         """)
 
@@ -88,15 +87,14 @@ class GraphInterface:
 
     # URL will eventually be scraped, add to queue if it isn't already in visited list
     def check_if_visited_then_enqueue(self, url: str) -> bool:
-        cursor = self.conn.cursor()
 
         # Check if url has been visited, return if it has been
-        cursor.execute("SELECT 1 FROM visited WHERE url = ? LIMIT 1", (url,))
-        exists = cursor.fetchone() is not None
+        self.cursor.execute("SELECT 1 FROM visited WHERE url = ? LIMIT 1", (url,))
+        exists = self.cursor.fetchone() is not None
         if exists: return False
 
         try:
-            cursor.execute("""
+            self.cursor.execute("""
                 INSERT INTO queue (url) 
                 VALUES (?)
             """, (url,))
@@ -110,15 +108,14 @@ class GraphInterface:
 
     # We are about to scrape, remove from queue and add to visited list
     def dequeue_and_mark_visited(self) -> str:
-        cursor = self.conn.cursor()
 
         # Fetch the most recent entry
-        cursor.execute("""
+        self.cursor.execute("""
             SELECT id, url FROM queue
-            ORDER BY added_at DESC
+            ORDER BY added_at ASC
             LIMIT 1
         """)
-        row = cursor.fetchone()
+        row = self.cursor.fetchone()
 
         if row is None:
             return None  # Queue is empty
@@ -126,18 +123,18 @@ class GraphInterface:
         entry_id, url = row
 
         # Remove it from the table
-        cursor.execute("DELETE FROM queue WHERE id = ?", (entry_id,))
+        self.cursor.execute("DELETE FROM queue WHERE id = ?", (entry_id,))
         # Add it to the visited list
-        cursor.execute("INSERT INTO visited (url) VALUES (?)", (url,))
+        self.cursor.execute("INSERT INTO visited (url) VALUES (?)", (url,))
 
         self.conn.commit()
 
         return url
     
     def add_node(self, page_name: str, cats: set) -> bool:
-        cursor = self.conn.cursor()
+
         try:
-            cursor.execute(
+            self.cursor.execute(
                 "INSERT INTO nodes (page_title, page_cats) VALUES (?, ?)",
                 (page_name, str(cats))
             )
@@ -150,9 +147,9 @@ class GraphInterface:
         return success
     
     def add_edge(self, from_page_name: str, to_page_name: str) -> bool:
-        cursor = self.conn.cursor()
+
         try:
-            cursor.execute(
+            self.cursor.execute(
                 """
                 INSERT INTO edge_list (origin_page, referenced_page)
                 VALUES (?, ?)
@@ -168,17 +165,15 @@ class GraphInterface:
         return success
     
     def get_all_nodes(self) -> list[tuple]:
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT page_title, page_cats FROM nodes")
-        nodes = cursor.fetchall()
-        cursor.close()
+
+        self.cursor.execute("SELECT page_title, page_cats FROM nodes ORDER BY page_title")
+        nodes = self.cursor.fetchall()
         return nodes
     
     def get_all_edges(self) -> list[tuple]:
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT origin_page, referenced_page FROM edge_list")
-        edges = cursor.fetchall()
-        cursor.close()
+
+        self.cursor.execute("SELECT origin_page, referenced_page FROM edge_list ORDER BY origin_page, referenced_page")
+        edges = self.cursor.fetchall()
         return edges
     
     def export_to_csv(self, output="output.csv"):
