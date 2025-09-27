@@ -5,7 +5,10 @@
 from wiki_interface import get_wiki_data
 from sqlite_interface import GraphInterface
 
-enter_page = input("URL of Wikipedia page to enter into queue (Enter nothing to continue working on current queue): ")
+import os
+
+enter_page = input("URL of Wikipedia page to search (Previous page searches will pick up where they left off): ")
+nodes_to_search = int(input("How many nodes should be searched (1 node will take about 1-8 seconds): "))
 
 # Push this to queue
 # While queue is not empty (or count to 100 or something)
@@ -14,7 +17,11 @@ enter_page = input("URL of Wikipedia page to enter into queue (Enter nothing to 
 # get child links, create an edge for each
 # attempt to queue each child link
 
-g = GraphInterface("test.db")
+# Get name of search topic for folder organization
+search_topic_name = enter_page.split('/')[-1]
+os.makedirs(search_topic_name, exist_ok=True)
+
+g = GraphInterface(search_topic_name + "/WikiGraph.db")
 g.create_tables()
 
 if enter_page != "": g.check_if_visited_then_enqueue(enter_page)
@@ -22,7 +29,7 @@ if enter_page != "": g.check_if_visited_then_enqueue(enter_page)
 count = 0
 
 # Current page will be a page url
-while count < 500:
+while count < nodes_to_search:
     current_page = g.dequeue_and_mark_visited()
     curr_page_data = get_wiki_data(current_page)
     curr_page_name = current_page.split('/')[-1]

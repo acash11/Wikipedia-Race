@@ -176,16 +176,18 @@ class GraphInterface:
         edges = self.cursor.fetchall()
         return edges
     
-    def export_to_csv(self, output="output.csv"):
-        with open('node_' + output, 'w', newline='') as csvfile:
+    def export_to_csv(self):
+        output = self.db_path.split('.')[0]
+
+        with open(output + "_nodes.csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(["page_name","categories"])
             for row in self.get_all_nodes():
                 writer.writerow(row)
 
-        with open('edge_' + output, 'w', newline='') as csvfile:
+        with open(output + "_edges.csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow(["from_page","to_page"])
+            writer.writerow(["Source","Target"])
             for row in self.get_all_edges():
                 writer.writerow(row)
     
