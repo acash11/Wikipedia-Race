@@ -2,6 +2,21 @@
 # Uses a queue data structure
 # Keep track of visited pages and directed edges via a SQLite database
 
+### TEMP FOR TESTING
+import random
+def get_and_remove_lowest_sim_score(data_list):
+    if not data_list:
+        return None
+
+    lowest_score_dict = data_list[0]
+    for item in data_list:
+        if item['sim_score'] < lowest_score_dict['sim_score']:
+            lowest_score_dict = item
+
+    data_list.remove(lowest_score_dict)
+    return lowest_score_dict
+###
+
 from wiki_interface import get_wiki_data
 from sqlite_interface import GraphInterface
 
@@ -28,6 +43,10 @@ if enter_page != "": g.check_if_visited_then_enqueue(enter_page)
 
 count = 0
 
+#TEMP FOR TESTING:
+#Will not work for resumed sessions, just to see if priority rankings are being pulled accurately
+similarity_dictionary = []
+
 # Current page will be a page url
 while count < nodes_to_search:
     current_page = g.dequeue_and_mark_visited()
@@ -39,7 +58,16 @@ while count < nodes_to_search:
     g.add_node(current_page.split('/')[-1], curr_page_data['cats'])
     for link in curr_page_data['links']:
         g.add_edge(from_page_name=curr_page_name, to_page_name=link.split('/')[-1])
-        g.check_if_visited_then_enqueue(link)
+
+        ### ADD PRIORITY RANK PROCESSING HERE
+        random_score = random.random()
+        similarity_dictionary.append({'url': link, 'sim_score': random_score})
+        ###
+
+        g.check_if_visited_then_enqueue(link, random_score)
+
+    #TEMP FOR TESTING:
+    print("Most similar: ", get_and_remove_lowest_sim_score(similarity_dictionary))
 
     count += 1
 

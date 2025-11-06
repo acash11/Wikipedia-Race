@@ -7,7 +7,8 @@ A queue table to keep track of the order of wikipedia queries:
     CREATE TABLE IF NOT EXISTS queue (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         url TEXT UNIQUE,
-        added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        priority_rank FLOAT NOT NULL
     )
 
 A sorted list table to keep if pages have already been visited:
@@ -53,7 +54,8 @@ class GraphInterface:
         CREATE TABLE IF NOT EXISTS queue (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             url TEXT UNIQUE,
-            added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            priority_rank FLOAT NOT NULL
         )
         """)
 
@@ -86,7 +88,7 @@ class GraphInterface:
         self.conn.commit()
 
     # URL will eventually be scraped, add to queue if it isn't already in visited list
-    def check_if_visited_then_enqueue(self, url: str) -> bool:
+    def check_if_visited_then_enqueue(self, url: str, priority_rank: float = 0) -> bool:
 
         # Check if url has been visited, return if it has been
         self.cursor.execute("SELECT 1 FROM visited WHERE url = ? LIMIT 1", (url,))
@@ -95,9 +97,9 @@ class GraphInterface:
 
         try:
             self.cursor.execute("""
-                INSERT INTO queue (url) 
-                VALUES (?)
-            """, (url,))
+                INSERT INTO queue (url,priority_rank) 
+                VALUES (?,?)
+            """, (url,priority_rank,))
             self.conn.commit()
             success = True
         except sql.IntegrityError:
@@ -110,9 +112,10 @@ class GraphInterface:
     def dequeue_and_mark_visited(self) -> str:
 
         # Fetch the most recent entry
+        # Previous: ORDER BY added_at ASC
         self.cursor.execute("""
             SELECT id, url FROM queue
-            ORDER BY added_at ASC
+            ORDER BY priority_rank ASC, added_at DESC
             LIMIT 1
         """)
         row = self.cursor.fetchone()
