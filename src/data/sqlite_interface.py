@@ -182,13 +182,13 @@ class GraphInterface:
     def export_to_csv(self):
         output = self.db_path.split('.')[0]
 
-        with open(output + "_nodes.csv", 'w', newline='') as csvfile:
+        with open(output + "_nodes.csv", 'w', newline='', encoding='utf-8') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(["page_name","categories"])
             for row in self.get_all_nodes():
                 writer.writerow(row)
 
-        with open(output + "_edges.csv", 'w', newline='') as csvfile:
+        with open(output + "_edges.csv", 'w', newline='', encoding='utf-8') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(["Source","Target"])
             for row in self.get_all_edges():
