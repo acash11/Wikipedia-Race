@@ -9,6 +9,8 @@ from typing import Callable, Optional
 from wiki_interface import get_wiki_data
 from sqlite_interface import GraphInterface
 
+global_cancel_check = False
+
 
 def get_and_remove_lowest_sim_score(data_list):
     """Temporary placeholder: pick and remove the lowest sim score entry."""
@@ -54,7 +56,7 @@ def crawl(
     similarity_dictionary = []
 
     # Current page will be a page url
-    while count < nodes_to_search:
+    while count < nodes_to_search and global_cancel_check is False:
         current_page = g.dequeue_and_mark_visited()
         if not current_page:
             break

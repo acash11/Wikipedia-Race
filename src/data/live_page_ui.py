@@ -9,6 +9,7 @@ from tkinter import messagebox, ttk
 from queue import Queue, Empty
 
 from create_wiki_graph import crawl
+import create_wiki_graph
 
 
 class LivePageUI:
@@ -42,7 +43,10 @@ class LivePageUI:
         ttk.Entry(frame, textvariable=self.nodes_var, width=15).grid(row=1, column=1, sticky="w", padx=5, pady=5)
 
         self.start_btn = ttk.Button(frame, text="Start crawl", command=self.start_crawl)
-        self.start_btn.grid(row=2, column=0, columnspan=2, pady=8)
+        self.start_btn.grid(row=2, column=1, columnspan=2, pady=8,)
+
+        self.cancel_btn = ttk.Button(frame, text="End crawl", command=self.cancel_crawl, state="disabled")
+        self.cancel_btn.grid(row=3, column=1, columnspan=2, pady=8)
 
     def _build_status(self):
         frame = ttk.LabelFrame(self.root, text="Status")
@@ -94,6 +98,11 @@ class LivePageUI:
 
         self.running = True
         self.start_btn.config(state="disabled")
+
+        # Reset cancel flag and enable button
+        create_wiki_graph.global_cancel_check = False
+        self.cancel_btn.config(state="normal")
+
         self._reset_view()
 
         thread = threading.Thread(
@@ -102,6 +111,10 @@ class LivePageUI:
             daemon=True,
         )
         thread.start()
+
+    def cancel_crawl(self):
+        create_wiki_graph.global_cancel_check = True
+        self.cancel_btn.config(state="disabled")   # Prevent double presses
 
     def _reset_view(self):
         self.current_label.config(text="-")
@@ -138,11 +151,13 @@ class LivePageUI:
             messagebox.showerror("Crawl error", event["error"])
             self.running = False
             self.start_btn.config(state="normal")
+            self.cancel_btn.config(state="disabled")
             return
 
         if event.get("done"):
             self.running = False
             self.start_btn.config(state="normal")
+            self.cancel_btn.config(state="disabled")
             result = event.get("result", {})
             messagebox.showinfo(
                 "Crawl finished",

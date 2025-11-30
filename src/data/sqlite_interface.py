@@ -113,17 +113,29 @@ class GraphInterface:
 
         # Fetch the most recent entry
         # Previous: ORDER BY added_at ASC
+
+        # PRIORITY QUEUE W/ RANKING
+        # self.cursor.execute("""
+        #     SELECT id, url FROM queue
+        #     ORDER BY priority_rank ASC, added_at DESC
+        #     LIMIT 1
+        # """)
+
+        # BREADTH FIRST SEARCH
         self.cursor.execute("""
             SELECT id, url FROM queue
-            ORDER BY priority_rank ASC, added_at DESC
+            ORDER BY id ASC, added_at DESC
             LIMIT 1
         """)
+
         row = self.cursor.fetchone()
 
         if row is None:
             return None  # Queue is empty
 
         entry_id, url = row
+
+        print("dequeued id and url: ", entry_id, url)
 
         # Remove it from the table
         self.cursor.execute("DELETE FROM queue WHERE id = ?", (entry_id,))
