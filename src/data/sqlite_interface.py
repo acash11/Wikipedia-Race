@@ -178,6 +178,26 @@ class GraphInterface:
         self.cursor.execute("SELECT origin_page, referenced_page FROM edge_list ORDER BY origin_page, referenced_page")
         edges = self.cursor.fetchall()
         return edges
+
+    def get_node_count(self) -> int:
+        self.cursor.execute("SELECT COUNT(*) FROM nodes")
+        (count,) = self.cursor.fetchone()
+        return count
+
+    def get_edge_count(self) -> int:
+        self.cursor.execute("SELECT COUNT(*) FROM edge_list")
+        (count,) = self.cursor.fetchone()
+        return count
+
+    def get_queue_size(self) -> int:
+        self.cursor.execute("SELECT COUNT(*) FROM queue")
+        (count,) = self.cursor.fetchone()
+        return count
+
+    def get_visited_size(self) -> int:
+        self.cursor.execute("SELECT COUNT(*) FROM visited")
+        (count,) = self.cursor.fetchone()
+        return count
     
     def export_to_csv(self):
         output = self.db_path.split('.')[0]
