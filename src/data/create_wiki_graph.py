@@ -73,7 +73,7 @@ def crawl(
             children_names.append(child_name)
 
             # priority rank here
-            sim_score = cos_sim(search_topic_name, link)
+            sim_score = cos_sim(search_topic_name, child_name)
             similarity_dictionary.append({"url": link, "sim_score": sim_score})
 
             g.check_if_visited_then_enqueue(link, sim_score)
