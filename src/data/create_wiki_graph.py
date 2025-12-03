@@ -99,14 +99,14 @@ def crawl(
 
             sim_score=0
             # priority rank here
-            if target_topic_name != None:
-                sim_score = cos_sim(target_topic_name, child_name, tokenizer, model, device)
-                similarity_dictionary.append({"url": link, "sim_score": sim_score})
+            # if target_topic_name != None:
+            #     sim_score = cos_sim(target_topic_name, child_name, tokenizer, model, device)
+            #     similarity_dictionary.append({"url": link, "sim_score": sim_score})
 
             if g.check_if_visited(link):
                 # priority rank here
                 if target_topic_name != None:
-                    sim_score = cos_sim(target_topic_name, child_name)
+                    sim_score = cos_sim(target_topic_name, child_name, tokenizer, model, device)
                     similarity_dictionary.append({"url": link, "sim_score": sim_score})
 
                 g.enqueue(link, sim_score)

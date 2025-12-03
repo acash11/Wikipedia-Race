@@ -5,7 +5,7 @@ def read_edge_list(csv_file, weighted=False):
 
     graph = {}
 
-    with open(csv_file, newline="", encoding="utf8") as f:
+    with open(csv_file, newline="", encoding="ISO-8859-1") as f:
         reader = csv.DictReader(f)
         for row in reader:
             u = row["Source"]
@@ -62,4 +62,4 @@ def find_shortest_path(path, target1, target2):
     return path
 
 if __name__ == '__main__':
-    print(find_shortest_path("John_Lennon_to_Taylor_Swift\WikiGraph_edges.csv", "John_Lennon", "Taylor_Swift"))
+    print(find_shortest_path("Taylor_Swift_to_Hypothyroidism\WikiGraph_edges.csv", "Taylor_Swift", "Hypothyroidism"))
