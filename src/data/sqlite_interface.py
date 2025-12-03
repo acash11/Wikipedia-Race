@@ -87,6 +87,27 @@ class GraphInterface:
 
         self.conn.commit()
 
+    def check_if_visited(self, url: str) -> bool:
+        # Check if url has been visited, return if it has been
+        self.cursor.execute("SELECT 1 FROM visited WHERE url = ? LIMIT 1", (url,))
+        exists = self.cursor.fetchone() is not None
+        if exists: return False
+        else: return True
+
+    def enqueue(self, url: str, priority_rank: float = 0) -> bool:
+        try:
+            self.cursor.execute("""
+                INSERT INTO queue (url,priority_rank) 
+                VALUES (?,?)
+            """, (url,priority_rank,))
+            self.conn.commit()
+            success = True
+        except sql.IntegrityError:
+            # URL already exists in the queue
+            success = False
+
+        return success    
+
     # URL will eventually be scraped, add to queue if it isn't already in visited list
     def check_if_visited_then_enqueue(self, url: str, priority_rank: float = 0) -> bool:
 

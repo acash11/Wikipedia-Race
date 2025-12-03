@@ -8,6 +8,7 @@ from typing import Callable, Optional
 from wiki_interface import get_wiki_data
 from sqlite_interface import GraphInterface
 from sentence_transformer import cos_sim
+from shortest_path import find_shortest_path
 
 global_cancel_check = False
 
@@ -87,19 +88,29 @@ def crawl(
             children_names.append(child_name)
 
             sim_score=0
-            # priority rank here
-            if target_topic_name != None:
-                sim_score = cos_sim(target_topic_name, child_name)
-                similarity_dictionary.append({"url": link, "sim_score": sim_score})
 
-            g.check_if_visited_then_enqueue(link, sim_score)
+            if g.check_if_visited(link):
+                # priority rank here
+                if target_topic_name != None:
+                    sim_score = cos_sim(target_topic_name, child_name)
+                    similarity_dictionary.append({"url": link, "sim_score": sim_score})
+
+                g.enqueue(link, sim_score)
+
+
+            #g.check_if_visited_then_enqueue(link, sim_score)
             edges_added += 1
 
-            print("Current most similar edge: ", get_lowest_sim_score(similarity_dictionary, remove=False))
+            if target_topic_name != None:
+                print("Current page: ", curr_page_name)
+                print("Current most similar edge: ", get_lowest_sim_score(similarity_dictionary, remove=False))
 
             if link == target_page:
                 print("TARGET LINK FOUND; EXITING PROGRAM")
                 g.export_to_csv()
+
+                print("Shortest path: ", find_shortest_path(g.db_path, search_topic_name, target_topic_name))
+
                 exit()
 
         most_similar = get_lowest_sim_score(similarity_dictionary)
