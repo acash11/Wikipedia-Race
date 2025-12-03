@@ -15,11 +15,6 @@ def cos_sim(goal, hyper, tokenizer, model, device):
     # Sentences we want sentence embeddings for
     sentences = [goal, hyper]
 
-    # Load model from HuggingFace Hub
-    tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-mpnet-base-v2')
-    model = AutoModel.from_pretrained('sentence-transformers/all-mpnet-base-v2')
-    model.to(device)  # move model to GPU
-
     # Tokenize sentences
     encoded_input = tokenizer(sentences, padding=True, truncation=True, return_tensors='pt').to(device)
 
