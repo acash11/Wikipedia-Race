@@ -123,7 +123,14 @@ def crawl(
                 print("TARGET LINK FOUND; EXITING PROGRAM")
                 g.export_to_csv()
 
-                shortest_pth = find_shortest_path(g.db_path, search_topic_name, target_topic_name)
+                path = None
+
+                if target_topic_name != None:
+                    path = search_topic_name + "_to_" + target_topic_name + '/WikiGraph_edges.csv'
+                else:
+                    path = search_topic_name + '/WikiGraph_edges.csv'
+
+                shortest_pth = find_shortest_path(path, search_topic_name, target_topic_name)
                 print("Shortest path: ", shortest_pth)
 
                 exit()
