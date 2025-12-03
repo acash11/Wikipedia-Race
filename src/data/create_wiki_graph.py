@@ -3,11 +3,11 @@
 # Keep track of visited pages and directed edges via a SQLite database
 
 import os
-import random
 from typing import Callable, Optional
 
 from wiki_interface import get_wiki_data
 from sqlite_interface import GraphInterface
+from sentence_transformer import cos_sim
 
 global_cancel_check = False
 
@@ -73,10 +73,10 @@ def crawl(
             children_names.append(child_name)
 
             # priority rank here
-            random_score = random.random()
-            similarity_dictionary.append({"url": link, "sim_score": random_score})
+            sim_score = cos_sim(search_topic_name, link)
+            similarity_dictionary.append({"url": link, "sim_score": sim_score})
 
-            g.check_if_visited_then_enqueue(link, random_score)
+            g.check_if_visited_then_enqueue(link, sim_score)
             edges_added += 1
 
         most_similar = get_and_remove_lowest_sim_score(similarity_dictionary)
