@@ -3,6 +3,9 @@
 # Keep track of visited pages and directed edges via a SQLite database
 
 import os
+from transformers import AutoTokenizer, AutoModel
+import torch
+import torch.nn.functional as F
 from typing import Callable, Optional
 
 from wiki_interface import get_wiki_data
@@ -11,6 +14,8 @@ from sentence_transformer import cos_sim
 
 global_cancel_check = False
 
+device = torch.device('cpu' if torch.cuda.is_available() else 'cpu')
+print("Using device:", device)
 
 def get_lowest_sim_score(data_list, remove=True):
     """Temporary placeholder: pick and remove the lowest sim score entry."""
@@ -69,6 +74,11 @@ def crawl(
     # Will not work for resumed sessions, just to see if priority rankings are being pulled accurately
     similarity_dictionary = []
 
+    # Load model from HuggingFace Hub
+    tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-mpnet-base-v2')
+    model = AutoModel.from_pretrained('sentence-transformers/all-mpnet-base-v2')
+    model.to(device)  # move model to GPU
+
     # Current page will be a page url
     while count < nodes_to_search and global_cancel_check is False:
         current_page = g.dequeue_and_mark_visited(priority_queue_mode=(target_topic_name != None))
@@ -89,7 +99,7 @@ def crawl(
             sim_score=0
             # priority rank here
             if target_topic_name != None:
-                sim_score = cos_sim(target_topic_name, child_name)
+                sim_score = cos_sim(target_topic_name, child_name, tokenizer, model, device)
                 similarity_dictionary.append({"url": link, "sim_score": sim_score})
 
             g.check_if_visited_then_enqueue(link, sim_score)
