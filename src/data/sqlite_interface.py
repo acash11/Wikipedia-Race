@@ -109,24 +109,25 @@ class GraphInterface:
         return success
 
     # We are about to scrape, remove from queue and add to visited list
-    def dequeue_and_mark_visited(self) -> str:
+    def dequeue_and_mark_visited(self, priority_queue_mode=False) -> str:
 
         # Fetch the most recent entry
         # Previous: ORDER BY added_at ASC
 
-        # PRIORITY QUEUE W/ RANKING
-        # self.cursor.execute("""
-        #     SELECT id, url FROM queue
-        #     ORDER BY priority_rank ASC, added_at DESC
-        #     LIMIT 1
-        # """)
-
-        # BREADTH FIRST SEARCH
-        self.cursor.execute("""
-            SELECT id, url FROM queue
-            ORDER BY id ASC, added_at DESC
-            LIMIT 1
-        """)
+        if priority_queue_mode:
+            # PRIORITY QUEUE W/ RANKING
+            self.cursor.execute("""
+                SELECT id, url FROM queue
+                ORDER BY priority_rank DESC, added_at DESC
+                LIMIT 1
+            """)
+        else:
+            # BREADTH FIRST SEARCH
+            self.cursor.execute("""
+                SELECT id, url FROM queue
+                ORDER BY id ASC, added_at DESC
+                LIMIT 1
+            """)
 
         row = self.cursor.fetchone()
 

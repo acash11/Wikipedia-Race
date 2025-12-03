@@ -73,6 +73,7 @@ Capture_the_flag,"{'Tag variants', 'Computer network security', 'Team sports', "
 Carmen_Sandiego_(video_game_series),"{'Video game franchises introduced in 1985', 'Carmen Sandiego games', 'Video games adapted into television shows', 'Video game franchises', 'Carmen Sandiego'}"
 Casual_game,"{'Casual games', 'Video game genres'}"
 Casual_games,"{'Casual games', 'Video game genres'}"
+Cheat_cartridge,{'Cheating in video games'}
 Cheat_codes,{'Cheating in video games'}
 Checkers_(video_game),"{'History of computing in the United Kingdom', '1952 video games', 'Single-player video games', 'Video games developed in the United Kingdom', 'Draughts', 'Early history of video games', 'Puzzle video games'}"
 Chicago_Sun-Times,"{'Nonprofit newspapers', 'Newspapers published in Chicago', 'Pulitzer Prize–winning newspapers', 'Daily newspapers published in the United States', 'Chicago Sun-Times', 'Newspapers established in 1948'}"
@@ -98,6 +99,7 @@ Cooperative_video_game,"{'Video game design', 'Video game terminology', 'Coopera
 Copyright,"{'Intangible assets', 'Data management', 'Intellectual property law', 'Product management', 'Copyright law', 'Monopoly (economics)', 'Public records'}"
 Cozy_game,"{'Cozy games', '2020s neologisms', 'Video game genres', 'Cozy fiction'}"
 Critical_hit,"{'Role-playing game terminology', 'Video game terminology'}"
+Critical_thinking,"{'Evaluation', 'Philosophy of education', 'Virtue', 'Social concepts', 'Thought', 'Critical thinking', 'John Dewey', 'Reasoning'}"
 Crunch_time_(video_gaming),"{'Working time', 'Occupational safety and health', 'Video game development', 'Ethically disputed working conditions', 'Video game industry labor disputes', 'Labor rights', 'Video game controversies', 'Video game terminology'}"
 D-pad,"{'1982 in video gaming', 'Game controllers'}"
 Dance_pad,"{'Game controllers', 'Dance pads'}"
@@ -118,6 +120,7 @@ E3,"{'1990s in video gaming', 'Impact of the COVID-19 pandemic on the video game
 EDSAC,"{'One-of-a-kind computers', 'Serial computers', '1949 establishments in England', 'Vacuum tube computers', 'History of the University of Cambridge', 'University of Cambridge Computer Laboratory', '1940s computers', 'Early British computers', 'Computer-related introductions in 1949', '1949 in computing'}"
 Early_mainframe_games,"{'Early history of video games', 'Mainframe games'}"
 Easter_egg_(media),"{'1980s neologisms', 'Cheating in video games', 'Computer humour', 'Software features', 'Easter egg (media)', 'In-jokes'}"
+Educational_entertainment,"{'Systems thinking', 'Pedagogy', 'Educational entertainment', 'Communication design', 'Video game terminology'}"
 Eighth_generation_of_video_game_consoles,"{'Eighth-generation video game consoles', '2010s toys', '2020s in video gaming', '2010s in video gaming', '2020s toys', 'Video game consoles by generation'}"
 Electro-mechanical_game,{'Arcade games'}
 Electronic_component,"{'Electrical components', 'Electronic circuits'}"
@@ -247,6 +250,7 @@ MIT,"{'Massachusetts Institute of Technology', 'Universities and colleges establ
 MIT_Press,"{'MIT Press', 'Publishing companies established in 1932', '1932 establishments in Massachusetts', 'University presses of the United States'}"
 Machinima,"{'Works based on video games', 'Machinima', 'Animation technology', 'Film styles'}"
 Magnetic-tape_data_storage,"{'1951 in computing', '1951 in technology', 'Magnetic devices', 'Computer-related introductions in 1951', 'Storage media', 'Computer storage tape media', 'Magnetic data storage', 'Tape recording'}"
+Mainframe_computers,{'Mainframe computers'}
 Manhunt_(video_game),"{'2003 video games', 'Psychological horror games', 'RenderWare games', 'Video games produced by Leslie Benzies', 'Video games set in psychiatric hospitals', 'Video games set in abandoned buildings and structures', 'Single-player video games', 'Censored video games', 'Video games about death games', 'PlayStation 2 games', 'Obscenity controversies in video games', 'Video games set in the United States', 'Fiction about snuff films', 'Stealth video games', 'Video games developed in the United Kingdom', 'Rockstar Games games', 'Organized crime video games', 'Video games set in prison', 'Windows games', 'Take-Two Interactive games', 'Video games set in 2003', 'Microphone-controlled video games', 'Xbox games'}"
 Map_seed,"{'Procedural generation', 'Video game terminology'}"
 Marketing,"{'Business processes', 'Promotion and marketing communications', 'Marketing'}"
@@ -363,6 +367,7 @@ Simulation_video_game,"{'Simulation video games', 'Video game genres'}"
 Skybox_(video_games),{'Video game design'}
 Smartphone,"{'Personal digital assistants', 'Consumer electronics', 'Information appliances', 'Cloud clients', 'Smartphones'}"
 Smartphones,"{'Personal digital assistants', 'Consumer electronics', 'Information appliances', 'Cloud clients', 'Smartphones'}"
+Smithsonian_Institution,"{'1846 establishments in Washington, D.C.', 'Science museums in Washington, D.C.', 'Independent agencies of the United States government', 'Museums established in 1846', 'History museums in Washington, D.C.', 'National museums of the United States', 'Smithsonian Institution', 'History of museums', 'Smithsonian Institution museums', 'Members of the Cultural Alliance of Greater Washington', 'Art museums and galleries in Washington, D.C.', 'Museum organizations'}"
 Social_media,"{'Social media', 'News aggregators', 'Social networks', 'Collaborative projects', 'Crowdsourcing'}"
 Social_network,"{'Sociological theories', 'Community building', 'Social information processing', 'Sociological terminology', 'Hyperreality', 'Social networks', 'Complex systems theory', 'Communication theory', 'Network theory', 'Organizational theory', 'Self-organization', 'Social systems'}"
 Social_simulation_game,"{'Social simulation video games', 'Video game genres'}"
@@ -422,6 +427,7 @@ Toys-to-life,"{'Video games about sentient toys', '2010s toys', '2020s in video 
 Traditional_sports_and_games,"{'Intangible Cultural Heritage of Humanity', 'Traditional games', 'Traditional sports'}"
 Train_simulator,"{'Train simulation video games', 'Railroad games', 'Video game genres'}"
 Tron,"{'1982 directorial debut films', '1980s action adventure films', 'Films about computing', 'American films with live action and animation', '1980s science fiction adventure films', 'American chase films', 'Rotoscoped films', 'Films about artificial intelligence', 'American science fiction adventure films', ""1982 children's films"", 'Films shot in Los Angeles', 'Films directed by Steven Lisberger', 'English-language science fiction adventure films', 'English-language science fiction action films', 'Tron films', 'Film superheroes', 'Films produced by Ron W. Miller', '1982 science fiction films', 'American science fiction action films', 'Films about death games', 'Films about virtual reality', 'American action adventure films', '1980s English-language films', 'Films scored by Wendy Carlos', '1982 in computing', '1982 films', 'Films about video games', 'Walt Disney Pictures films', 'Films about computer hacking', '1982 action films', 'Films adapted into comics', 'English-language action adventure films', 'Films produced by Donald Kushner', '1980s science fiction action films', 'Films set in 1982', 'Films adapted into television shows', 'Saturn Award–winning films', '1980s American films', 'Religion in science fiction'}"
+Turn-based_role-playing,"{'Video game genres', 'Turn-based role-playing video games'}"
 Twitch_gameplay,{'Video game terminology'}
 United_States-China_Economic_and_Security_Review_Commission,"{'China–United States economic relations', 'Foreign relations agencies of the United States', 'United States national commissions'}"
 University_of_Minnesota_Press,"{'Native American literature', 'Publishing companies established in 1925', 'Book publishing companies based in Minnesota', '1925 establishments in Minnesota', 'University presses of the United States', 'University of Minnesota'}"
@@ -474,6 +480,7 @@ Video_games_in_Lithuania,"{'Video gaming in Lithuania', 'Lithuania stubs', 'Lith
 Video_games_in_Malaysia,"{'Video game stubs', 'Video gaming in Malaysia', 'Science and technology in Malaysia', 'Culture of Malaysia'}"
 Video_games_in_Nigeria,"{'Culture of Nigeria', 'Video gaming in Nigeria'}"
 Video_games_in_Norway,"{'Video game stubs', 'Video gaming in Norway', 'Norway stubs'}"
+Video_games_in_South_Africa,"{'Video gaming in South Africa', 'Culture of South Africa'}"
 Video_games_in_South_Korea,"{'Science and technology in South Korea', 'Culture of South Korea', 'Video gaming in South Korea'}"
 Video_games_in_Spain,"{'1970s establishments in Spain', 'Video gaming in Spain'}"
 Video_games_in_Turkey,"{'Video gaming in Turkey', 'Science and technology in Turkey', 'Culture of Turkey'}"
