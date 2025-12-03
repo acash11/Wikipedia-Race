@@ -62,4 +62,4 @@ def find_shortest_path(path, target1, target2):
     return path
 
 if __name__ == '__main__':
-    print(find_shortest_path("Minecraft_to_Five_Nights_at_Freddy%27s\WikiGraph_edges.csv", "Minecraft", "Five_Nights_at_Freddy%27s"))
+    print(find_shortest_path("Magnus_Carlsen_to_Tyler,_the_Creator\WikiGraph_edges.csv", "Magnus_Carlsen", "Tyler,_the_Creator"))

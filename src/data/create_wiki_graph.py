@@ -123,7 +123,8 @@ def crawl(
                 print("TARGET LINK FOUND; EXITING PROGRAM")
                 g.export_to_csv()
 
-                print("Shortest path: ", find_shortest_path(g.db_path, search_topic_name, target_topic_name))
+                shortest_pth = find_shortest_path(g.db_path, search_topic_name, target_topic_name)
+                print("Shortest path: ", shortest_pth)
 
                 exit()
 
